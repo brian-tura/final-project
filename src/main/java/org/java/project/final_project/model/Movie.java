@@ -11,6 +11,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "movies")
@@ -23,15 +24,29 @@ public class Movie {
     @NotBlank(message = "The movie title must not be empty or null")
     private String title;
 
-    @NotBlank(message = "The Author must not be blank or null")
-    private String author;
+    @NotBlank(message = "The Director must not be blank or null")
+    private String director;
+
+    @NotNull(message = "Year of publishing must not be empty")
+    private int year;
+
+    @NotBlank(message = "Image Url must not be empty")
+    private String image;
 
     @ManyToMany()
-    @JoinTable(name = "movie-genre", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    @JoinTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres;
-
+    
     public int getId() {
         return id;
+    }
+    
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public void setId(int id) {
@@ -46,12 +61,12 @@ public class Movie {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getDirector() {
+        return director;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setDirector(String director) {
+        this.director = director;
     }
 
     public List<Genre> getGenres() {
@@ -60,6 +75,14 @@ public class Movie {
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
 

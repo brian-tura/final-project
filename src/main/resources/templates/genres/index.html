@@ -1,10 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <div th:replace="~{fragments/resources :: head}"></div>
 </head>
+
 <body>
-        <h1>Hello</h1>
-        <div th:replace="~{fragments/resources :: scripts}"></div>
+    <div class="container">
+        <h1>Genres list</h1>
+        <a th:href="@{/genres/create}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')">Create new
+            genre</a>
+            <table class="table" th:if="${genres.size() > 0}">
+                <thead>
+                    <th>Genres</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr th:each="genre : ${genres}" th:object="${genre}">
+                        <td>[[*{name}]]</td>
+                        <td><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/genres/edit/{id}(id=${genre.id})}"
+                                class="btn btn-primary">Edit genre</a></td>
+                        <td><button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-danger btn-sm"
+                                data-bs-toggle="modal"
+                                th:data-bs-target="'#delete-modal-' + ${genre.id}">Delete</button>
+
+
+                            <div class="modal fade" th:id="'delete-modal-' + ${genre.id}" tabindex="-1"
+                                aria-labelledby="delete-modal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="modalLabel">Deleting
+                                                "[[${genre.name}]]"</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Sei sicuro di voler cancellare l'genre?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <form class="d-inline-block"
+                                                th:action="@{/genres/delete/{id}(id=${genre.id})}" method="post">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:replace="~{fragments/resources :: scripts}"></div>
 </body>
+
 </html>

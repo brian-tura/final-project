@@ -4,6 +4,72 @@
     <div th:replace="~{fragments/resources :: head}"></div>
 </head>
 <body>
+    <main class="container">
+        <div class="row">
+            <div class="col-12">
+                <th:block>
+                    <h1>
+                        Creating a new Movie
+                    </h1>
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <!-- Form -->
+                            <form id="movie-form" th:action="@{/movies/create}" th:object="${movie}" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label" for="title">Title: </label>
+                                    <input class="form-control" type="text" id="title" th:field="*{title}"
+                                        th:errorClass="is-invalid">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="director">Director: </label>
+                                    <input class="form-control" type="text" id="director" th:field="*{director}"
+                                        th:errorClass="is-invalid">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('director')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('director')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="image">Image URL: </label>
+                                    <input class="form-control" type="text" id="image" th:field="*{image}"
+                                        th:errorClass="is-invalid">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('image')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('image')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="year">Year of release: </label>
+                                    <input class="form-control" type="number" step="1" min="1900" id="year"
+                                        th:field="*{year}" th:errorClass="is-invalid">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('year')}">
+                                        <ul>
+                                            <li th:each="error : ${#fields.errors('year')}" th:text="${error}" />
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div th:each="genre : ${genres}">
+                                    <input type="checkbox" th:field="*{genres}" th:value="${genre.id}">
+                                    <span th:text="${genre.name}"></span>
+                                </div>
+                                <div class="mb-3 d-flex justify-content-between">
+                                    <input type="submit" class="btn btn-primary" value="Add movie">
+                                    <input type="reset" class="btn btn-warning" value="Reset values">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </main>
     <div th:replace="~{fragments/resources :: scripts}"></div>
 </body>
 </html>

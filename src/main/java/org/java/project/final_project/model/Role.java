@@ -1,8 +1,11 @@
 package org.java.project.final_project.model;
 
-import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,24 +14,25 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "genres")
-public class Genre {
-
+@Table(name = "roles")
+public class Role {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @NotBlank(message = "The name must not be empty or null")
+    @NotBlank(message = "Lo name non può essere vuoto o null")
     private String name;
 
-    @ManyToMany(mappedBy = "genres")
-    private List<Movie> movies;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @JsonBackReference
+    private Set<User> users;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -38,13 +42,5 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
     }
 }

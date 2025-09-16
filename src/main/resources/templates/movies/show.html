@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <div th:replace="~{fragments/resources :: head}"></div>
 </head>
+
 <body>
+    <div class="container mt-5">
+        <div class="d-flex">
+            <div class="me-5 col-5">
+                <h3 th:text="'Title: ' + ${movie.title}"></h3>
+                <h5 th:text="'Director: ' + ${movie.director}"></h5>
+                <p th:text="'Year of Release: ' + ${movie.year}"></p>
+                <ul>
+                    <li th:each="genre : ${movie.genres}" th:object="${genre}">[[*{name}]]</li>
+                </ul>
+            </div>
+            <div>
+                <!-- Gli url delle immagini non funzionano per la maggiorparte dei film -->
+                <img class="img-fluid" th:src="${movie.image}" alt="">
+            </div>
+        </div>
+    </div>
     <div th:replace="~{fragments/resources :: scripts}"></div>
 </body>
+
 </html>

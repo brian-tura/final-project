@@ -7,6 +7,7 @@ import org.java.project.final_project.model.Movie;
 import org.java.project.final_project.repository.GenreRepository;
 import org.java.project.final_project.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,10 +30,11 @@ public class MovieController {
     private GenreRepository genreRepository;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Authentication authentication, Model model) {
         List<Movie> movies = movieRepository.findAll();
 
         model.addAttribute("movies", movies);
+        model.addAttribute("username", authentication.getName());
         return "movies/index";
     }
 
@@ -87,7 +89,7 @@ public class MovieController {
         return "redirect:/movies";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
         movieRepository.deleteById(id);
         return "redirect:/movies";

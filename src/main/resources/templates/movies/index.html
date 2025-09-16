@@ -1,10 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <div th:replace="~{fragments/resources :: head}"></div>
 </head>
+
 <body>
-        <h1>Hello</h1>
-        <div th:replace="~{fragments/resources :: scripts}"></div>
+    <div class="container mt-5">
+        <h1 th:text="'Welcome to out streaming service ' + ${username}" />
+        <a th:href="@{/movies/create}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')">Add a new film</a>
+        <a th:href="@{/genres}" class="btn btn-primary">Genres</a>
+        <table class="table" th:if="${movies.size() > 0}">
+            <thead>
+                <th>Title</th>
+                <th>Director</th>
+                <th>Release Date</th>
+                <th>Genres</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr th:each="movie : ${movies}" th:object="${movie}">
+                    <td>[[*{title}]]</td>
+                    <td>[[*{director}]]</td>
+                    <td>[[*{year}]]</td>
+                    <td>
+                        <ul>
+                            <li th:each="genre : ${movie.genres}" th:object="${genre}">[[*{name}]]</li>
+                        </ul>
+                    </td>
+                    <td><a th:href="@{/movies/{id}(id=${movie.id})}" class="btn btn-primary">Details</a></td>
+                    <td><a th:href="@{/movies/edit/{id}(id=${movie.id})}" class="btn btn-primary"
+                            sec:authorize="hasAuthority('ADMIN')">Edit</a></td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                            th:data-bs-target="'#delete-modal-' + ${movie.id}"
+                            sec:authorize="hasAuthority('ADMIN')">Delete</button>
+
+
+                        <div class="modal fade" th:id="'delete-modal-' + ${movie.id}" tabindex="-1"
+                            aria-labelledby="delete-modal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="modalLabel">Deleting "[[${movie.title}]]"</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete the movie?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <form class="d-inline-block" th:action="@{/movies/delete/{id}(id=${movie.id})}"
+                                            method="post">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="~{fragments/resources :: scripts}"></div>
 </body>
+
 </html>
