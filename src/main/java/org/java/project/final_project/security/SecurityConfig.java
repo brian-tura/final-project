@@ -27,7 +27,7 @@ public class SecurityConfig {
             .requestMatchers("/genres", "/genres/**").hasAnyAuthority("USER","ADMIN")
             .requestMatchers("/movies", "/movies/**").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers("/**").permitAll()
-            .and().formLogin().defaultSuccessUrl("/movies")
+            .and().formLogin().loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/movies", true)
             .and().logout()
             .and().exceptionHandling();
 

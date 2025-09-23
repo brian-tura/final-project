@@ -6,6 +6,7 @@
 </head>
 
 <body>
+    <header th:replace="~{fragments/navbar :: header}"></header>
     <div class="container">
         <h1>Genres list</h1>
         <a th:href="@{/genres/create}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')">Create new

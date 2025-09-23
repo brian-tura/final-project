@@ -6,8 +6,9 @@
 </head>
 
 <body>
+    <header th:replace="~{fragments/navbar :: header}"></header>
     <div class="container mt-5">
-        <h1 th:text="'Welcome to out streaming service ' + ${username}" />
+        <h1 th:text="'Welcome to our streaming service ' + ${username}" />
         <a th:href="@{/movies/create}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')">Add a new film</a>
         <a th:href="@{/genres}" class="btn btn-primary">Genres</a>
         <table class="table" th:if="${movies.size() > 0}">

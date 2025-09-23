@@ -6,6 +6,7 @@
 </head>
 
 <body>
+    <header th:replace="~{fragments/navbar :: header}"></header>
     <main class="container">
         <div class="row">
             <div class="col-12">
@@ -27,7 +28,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <input type="submit" class="btn btn-primary" value="Save Changes">
+                                <input type="submit" class="btn btn-primary" value="Save">
                                 <input type="reset" class="btn btn-warning" value="Reset values">
                             </form>
                         </div>

@@ -2,6 +2,8 @@ package org.java.project.final_project.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +23,7 @@ public class Genre {
     @NotBlank(message = "The name must not be empty or null")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "genres")
     private List<Movie> movies;
 
